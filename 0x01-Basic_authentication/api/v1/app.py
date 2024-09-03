@@ -28,14 +28,15 @@ def before_request():
     if auth is None:
         pass
     else:
-        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']  # Noqa
 
         if auth.require_auth(request.path, excluded_paths):
             if auth.authorization_header(request) is None:
                 abort(401, description="Unauthorized")
             if auth.current_user(request) is None:
                 abort(403, description="Forbidden")
-            
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
