@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """create session authentication system"""
 
+from typing import TypeVar
 from api.v1.auth.auth import Auth
 import uuid
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -29,3 +31,14 @@ class SessionAuth(Auth):
             return None
 
         return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """returns a USER instance based on cookie value"""
+        if request is None:
+            return None
+
+        session_cookie = self.session_cookie(request)
+        user_ID = self.user_id_for_session_id(session_cookie)
+
+        user = User.get(user_ID)
+        return user
