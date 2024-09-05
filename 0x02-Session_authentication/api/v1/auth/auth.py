@@ -5,6 +5,9 @@ from flask import request
 from typing import List, TypeVar
 
 
+SESSION_NAME = None
+
+
 class Auth():
     """class AUth"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
@@ -37,3 +40,12 @@ class Auth():
     def current_user(self, request=None) -> TypeVar('User'):
         """current user"""
         return None
+
+    def session_cookie(self, request=None):
+        """returns a cookie value from a request"""
+        if request is None:
+            return None
+
+        SESSION_NAME = request.cookies.get("_my_session_id")
+
+        return SESSION_NAME
