@@ -2,10 +2,8 @@
 """a class to manage the API application"""
 
 from flask import request
+import os
 from typing import List, TypeVar
-
-
-SESSION_NAME = None
 
 
 class Auth():
@@ -46,6 +44,6 @@ class Auth():
         if request is None:
             return None
 
-        SESSION_NAME = request.cookies.get("_my_session_id")
-
-        return SESSION_NAME
+        session_name = os.getenv("SESSION_NAME")
+        cookie = request.cookies.get(session_name)
+        return cookie
