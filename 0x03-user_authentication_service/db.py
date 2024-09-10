@@ -30,7 +30,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the database"""
         user = User(email=email, hashed_password=hashed_password)
@@ -38,20 +38,20 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """return a user based on the given arguments"""
         for key in kwargs.keys():
             if not hasattr(User, key):
                 raise InvalidRequestError()
-        
+
         user = self._session.query(User).filter_by(**kwargs).first()
 
         if user is None:
             raise NoResultFound()
-        
+
         return user
-    
+
     def update_user(self, user_id: int, **kwargs) -> User:
         """updates a user using kwargs"""
         user = self.find_user_by(id=user_id)
@@ -61,6 +61,6 @@ class DB:
                 raise ValueError
             else:
                 setattr(user, key, value)
-        
+
         self._session.commit()
         return None
