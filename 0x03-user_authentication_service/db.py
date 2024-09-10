@@ -44,7 +44,7 @@ class DB:
         """return a user based on the given arguments"""
         if not kwargs:
             raise NoResultFound
-        
+
         user = self._session.query(User).filter_by(**kwargs).first()
 
         if not user:
