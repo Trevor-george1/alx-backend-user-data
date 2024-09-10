@@ -43,7 +43,7 @@ class DB:
     def find_user_by(self, **kwargs) -> User:
         """return a user based on the given arguments"""
         if not kwargs:
-            raise NoResultFound
+            raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).first()
 
