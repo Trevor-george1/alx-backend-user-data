@@ -52,10 +52,9 @@ class DB:
 
         return user
 
-    def update_user(self, user_id: int, **kwargs) -> User:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """updates a user using kwargs"""
         user = self.find_user_by(id=user_id)
-
         for key, value in kwargs.items():
             if not hasattr(user, key):
                 raise ValueError
