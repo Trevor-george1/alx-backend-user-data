@@ -34,11 +34,11 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """saves the user to the database"""
-        user = User(email=email, hashed_password=hashed_password)
+        new_user = User(email=email, hashed_password=hashed_password)
 
         self._session.add(user)
         self._session.commit()
-        return user
+        return new_user
 
     def find_user_by(self, **kwargs) -> User:
         """return a user based on the given arguments"""
