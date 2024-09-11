@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """DB module
 """
-import logging
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -10,12 +9,6 @@ from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
-
-
-logging.getLogger('sqlalchemy').setLevel(logging.CRITICAL)
-logging.getLogger('sqlalchemy.engine').setLevel(logging.CRITICAL)
-logging.getLogger('sqlalchemy.pool').setLevel(logging.CRITICAL)
-logging.getLogger('sqlalchemy.dialects.sqlite.base').setLevel(logging.CRITICAL)
 
 
 class DB:
@@ -62,6 +55,7 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """updates a user using kwargs"""
         user = self.find_user_by(id=user_id)
+
         for key, value in kwargs.items():
             if not hasattr(user, key):
                 raise ValueError
