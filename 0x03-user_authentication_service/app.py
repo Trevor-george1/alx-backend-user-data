@@ -5,6 +5,7 @@ from flask import jsonify, render_template
 from flask import Flask
 app = Flask(__name__)
 
+
 @app.route('/', methods=["GET"], strict_slashes=False)
 def index():
     return jsonify({"message": "Bienvenue"})
