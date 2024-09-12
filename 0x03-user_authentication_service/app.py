@@ -48,6 +48,7 @@ def login() -> str:
         else:
             abort(401)
 
+
 @app.route('/sessions', methods=['DELETE'])
 def logout():
     """deletes a session from user and logs out"""
@@ -59,7 +60,20 @@ def logout():
             abort(403)
         AUTH.destroy_session(user.session_id)
         return redirect('/')
-    
+
+
+@app.route('/profile', methods=['GET'])
+def profile():
+    """gets a user email from a session id"""
+    if request.method == 'GET':
+        session_id = request.cookies.get('session_id')
+
+        user = AUTH.get_user_from_session_id(session_id)
+        if user:
+            return({"email": user.email}), 200
+        else:
+            abort(403)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
