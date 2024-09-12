@@ -49,7 +49,7 @@ def login() -> str:
             abort(401)
 
 @app.route('/sessions', methods=['DELETE'])
-def logout() -> str:
+def logout():
     """deletes a session from user and logs out"""
     sessionID = request.cookies.get('session_id')
 
