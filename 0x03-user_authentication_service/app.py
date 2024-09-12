@@ -52,9 +52,9 @@ def login() -> str:
 def logout():
     """deletes a session from user and logs out"""
     if request.method == 'DELETE':
-        sessionID = request.cookies.get('session_id')
+        session_ID = request.cookies.get('session_id')
 
-        user = AUTH.get_user_from_session_id(sessionID)
+        user = AUTH.get_user_from_session_id(session_ID)
         if not user:
             abort(403)
         AUTH.destroy_session(user.session_id)
