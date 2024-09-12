@@ -2,7 +2,7 @@
 """flask basic app for authentiaction"""
 
 from auth import Auth
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, redirect
 from flask import Flask
 app = Flask(__name__)
 
@@ -31,7 +31,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'])
-def login():
+def login() -> str:
     """
         logs in a user and creates a session
     """
@@ -48,6 +48,17 @@ def login():
         else:
             abort(401)
 
+@app.route('/sessions', methods=['DELETE'])
+def logout() -> str:
+    """deletes a session from user and logs out"""
+    sessionID = request.cookies.get('session_id')
+
+    user = AUTH.get_user_from_session_id(sessionID)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect('/')
+    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
