@@ -35,18 +35,18 @@ def login():
     """
         logs in a user and creates a session
     """
-    
-    email = request.form.get('email')
-    password = request.form.get('password')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-    if AUTH.valid_login(email, password):
-        sessionID = AUTH.create_session(email)
-        response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie('session_id', sessionID)
+        if AUTH.valid_login(email, password):
+            sessionID = AUTH.create_session(email)
+            response = jsonify({"email": email, "message": "logged in"})
+            response.set_cookie('session_id', sessionID)
 
-        return response
-    else:
-        abort(401)
+            return response
+        else:
+            abort(401)
 
 
 if __name__ == "__main__":
